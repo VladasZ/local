@@ -1,5 +1,5 @@
 - name: Deploy on Raspberry Pi
-  hosts: raspberry_pi
+  hosts: raspberry_pies
   become: yes
   tasks:
     - name: Stop
