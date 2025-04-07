@@ -1,0 +1,11 @@
+- name: Install soft
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install packages
+      package:
+        name:
+          - duf
+          - ncdu
+        state: present
+        update_cache: yes

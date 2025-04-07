@@ -2,7 +2,7 @@ ping:
 	ansible all -i hosts.ini -m ping
 
 ssh:
-	ssh vladas@192.168.0.6
+	ssh dietpi@192.168.0.2
 
 deploy:
-	 ansible-playbook deploy-app.yml
+	 ansible-playbook deploy-petuh.yml
