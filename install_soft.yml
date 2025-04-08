@@ -8,5 +8,6 @@
           - duf
           - ncdu
           - acpi
+          - brightnessctl
         state: present
         update_cache: yes
