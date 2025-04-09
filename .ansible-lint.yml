@@ -1,6 +1,6 @@
 skip_list:
   - fqcn[action-core]
-  - name[play]
 
 exclude_paths:
-  - playbooks/deploy-petuh.yml
+  - playbooks/deploy_petuh.yml
+  - playbooks/prometheus/prometheus.yml

@@ -1,0 +1,14 @@
+- name: Install and start Node Exporter
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Node Exporter
+      apt:
+        name: prometheus-node-exporter
+        state: present
+
+    - name: Ensure Node Exporter is running
+      systemd:
+        name: prometheus-node-exporter
+        enabled: true
+        state: started

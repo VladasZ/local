@@ -1,0 +1,29 @@
+- name: Install and start Prometheus
+  hosts: cp
+  become: true
+  tasks:
+    - name: Install Prometheus
+      apt:
+        name: prometheus
+        state: present
+
+    - name: Copy prometheus.yml to /etc/prometheus/
+      copy:
+        src: prometheus.yml
+        dest: /etc/prometheus/prometheus.yml
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Restart Prometheus
+
+    - name: Ensure Prometheus is running
+      systemd:
+        name: prometheus
+        enabled: true
+        state: started
+
+  handlers:
+    - name: Restart Prometheus
+      systemd:
+        name: prometheus
+        state: restarted

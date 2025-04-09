@@ -1,2 +1,14 @@
-- import_playbook: apt-upgrade.yml
-- import_playbook: install_soft.yml
+- name: Apt upgrade
+  import_playbook: apt_upgrade.yml
+
+- name: Install soft
+  import_playbook: install_soft.yml
+
+- name: Install node exporter
+  import_playbook: prometheus/node_exporter.yml
+
+- name: Install Prometheus
+  import_playbook: prometheus/install_prometheus.yml
+
+- name: Install Grafana
+  import_playbook: grafana.yml

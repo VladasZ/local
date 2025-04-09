@@ -12,4 +12,7 @@ up:
 
 destroy:
 	vagrant destroy -f
+
+lint:
+	ansible-lint
 	

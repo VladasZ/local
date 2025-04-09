@@ -9,6 +9,35 @@
           - ncdu
           - htop
           - acpi
+          - iperf3
           - brightnessctl
         state: present
         update_cache: true
+
+    - name: Create systemd service for iperf3 server
+      copy:
+        dest: /etc/systemd/system/iperf3.service
+        content: |
+          [Unit]
+          Description=iperf3 server
+          After=network.target
+
+          [Service]
+          ExecStart=/usr/bin/iperf3 -s
+          Restart=on-failure
+
+          [Install]
+          WantedBy=multi-user.target
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Reload systemd to recognize new service
+      systemd:
+        daemon_reload: true
+
+    - name: Enable and start iperf3 server
+      systemd:
+        name: iperf3
+        enabled: true
+        state: started
