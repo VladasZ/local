@@ -37,6 +37,7 @@
         grafana_url: http://localhost:3000
         ds_type: prometheus
         ds_url: http://localhost:9090
+        is_default: true
 
     # - name: Import Grafana dashboard
     #   community.grafana.grafana_dashboard:
