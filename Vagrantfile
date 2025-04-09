@@ -1,30 +1,37 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
 
-VAGRANTFILE_API_VERSION = "2"
+Vagrant.configure("2") do |config|
 
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # General Vagrant VM configuration.
+  # vagrant plugin install vagrant_utm
   config.vm.box = "utm/bookworm"
   config.ssh.insert_key = false
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.provider :virtualbox do |v|
-    v.memory = 512
-    v.linked_clone = true
+
+  cp_config = lambda do |config|
+    config.vm.provider :utm do |v|
+      v.memory = 2048
+      v.cpus = 2
+    end
   end
 
-  # Application server 1.
-  config.vm.define "app1" do |app|
-    app.vm.hostname = "orc-app1.test"
+  config.vm.define "cp" do |cp|
+    cp.vm.hostname = "cp"
+    cp_config.call(cp)
   end
 
-  # Application server 2.
-  config.vm.define "app2" do |app|
-    app.vm.hostname = "orc-app2.test"
+  node_config = lambda do |config|
+    config.vm.provider :utm do |v|
+      v.memory = 4096
+      v.cpus = 2
+    end
   end
 
-  # Database server.
-  config.vm.define "db" do |db|
-    db.vm.hostname = "orc-db.test"
+  config.vm.define "node1" do |node|
+    node.vm.hostname = "node1"
+    node_config.call(node)
+  end
+
+  config.vm.define "node2" do |node|
+    node.vm.hostname = "node2"
+    node_config.call(node)
   end
 end

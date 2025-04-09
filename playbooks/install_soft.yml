@@ -1,13 +1,14 @@
 - name: Install soft
   hosts: all
-  become: yes
+  become: true
   tasks:
-    - name: Install packages
+    - name: Install soft
       package:
         name:
           - duf
           - ncdu
+          - htop
           - acpi
           - brightnessctl
         state: present
-        update_cache: yes
+        update_cache: true

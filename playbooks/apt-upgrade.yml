@@ -1,0 +1,11 @@
+- name: Upgrade
+  hosts: all
+  become: true
+  tasks:
+    - name: Upgrade
+      apt:
+        clean: true
+        autoclean: true
+        autoremove: true
+        update_cache: true
+        upgrade: true

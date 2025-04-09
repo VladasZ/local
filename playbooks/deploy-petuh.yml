@@ -7,7 +7,7 @@
         executable: /bin/bash
 
     - name: Create project dir
-      file:
+      ansible.builtin.file:
         path: ~/petuh
         state: directory
         mode: '0755'
@@ -27,4 +27,4 @@
     - name: Run
       args:
         chdir: ~/petuh/
-      ansible.builtin.shell: nohup ~/petuh/glavpetuh > ~/petuh/glavpetuh.log 2>&1 &
+      shell: nohup ~/petuh/glavpetuh > ~/petuh/glavpetuh.log 2>&1 &

@@ -1,7 +1,0 @@
-- hosts: all
-  become: yes
-  tasks:
-  - package: name=chrony state=present
-  - package: name=ncdu state=present
-  - package: name=htop state=present
-  - service: name=chronyd state=started enabled=yes
