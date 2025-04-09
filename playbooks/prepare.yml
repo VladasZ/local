@@ -11,4 +11,4 @@
   import_playbook: prometheus/install_prometheus.yml
 
 - name: Install Grafana
-  import_playbook: grafana.yml
+  import_playbook: grafana/grafana.yml

@@ -16,3 +16,8 @@ scrape_configs:
     static_configs:
       - targets:
           - 10.0.2.2:9102
+
+  - job_name: "pi"
+    static_configs:
+      - targets:
+          - 192.168.0.2:9100
