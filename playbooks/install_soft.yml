@@ -10,7 +10,9 @@
           - htop
           - acpi
           - iperf3
+          - sysbench
           - brightnessctl
+          - speedtest-cli
         state: present
         update_cache: true
 
