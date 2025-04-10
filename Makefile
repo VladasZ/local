@@ -5,7 +5,7 @@ ssh:
 	ssh dietpi@192.168.0.2
 
 deploy:
-	 ansible-playbook deploy-petuh.yml
+	 ansible-playbook playbooks/deploy_petuh.yml
 
 up:
 	vagrant up
@@ -15,4 +15,10 @@ destroy:
 
 lint:
 	ansible-lint
+
+prepare:
+	ansible-playbook playbooks/prepare.yml -l linux
+
+bench:
+	ansible-playbook playbooks/bench.yml -l linux
 	

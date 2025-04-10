@@ -31,6 +31,10 @@
         enabled: true
         state: started
 
+    - name: Wait for Grafana
+      wait_for:
+        timeout: 5
+
     - name: Create prometheus datasource
       community.grafana.grafana_datasource:
         name: prometheus

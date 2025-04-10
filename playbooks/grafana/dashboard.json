@@ -96,6 +96,8 @@
             }
           },
           "mappings": [],
+          "max": 100,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -108,7 +110,7 @@
               }
             ]
           },
-          "unit": "percentunit"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -140,8 +142,8 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "node_load1",
+          "editorMode": "code",
+          "expr": "100 - (avg by (job) (irate(node_cpu_seconds_total{mode=\"idle\"}[1m])) * 100)",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{job}}",
@@ -445,19 +447,19 @@
       "pluginVersion": "11.6.0",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "node_network_receive_bytes_total{device=~\"eth0|enp0s2\"}",
+          "editorMode": "code",
+          "expr": "irate(node_network_receive_bytes_total{device=~\"eth0|enp0s2\"}[1m])",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{job}}",
           "range": true,
           "refId": "A",
-          "useBackend": false,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          }
+          "useBackend": false
         }
       ],
       "title": "Network Received",
@@ -546,6 +548,10 @@
       "pluginVersion": "11.6.0",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "disableTextWrap": false,
           "editorMode": "code",
           "expr": "node_network_receive_errs_total + node_network_transmit_errs_total",
@@ -554,11 +560,7 @@
           "legendFormat": "{{job}} - {{device}}",
           "range": true,
           "refId": "A",
-          "useBackend": false,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          }
+          "useBackend": false
         }
       ],
       "title": "Network Errors",
@@ -863,19 +865,19 @@
       "pluginVersion": "11.6.0",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "node_network_transmit_bytes_total{device=~\"eth0|enp0s2\"}",
+          "editorMode": "code",
+          "expr": "irate(node_network_transmit_bytes_total{device=~\"eth0|enp0s2\"}[1m])",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{job}}",
           "range": true,
           "refId": "A",
-          "useBackend": false,
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS_PROMETHEUS}"
-          }
+          "useBackend": false
         }
       ],
       "title": "Network Transmit",
@@ -888,13 +890,13 @@
     "list": []
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Cluster state",
   "uid": "eeifcsezb63uob",
-  "version": 19,
+  "version": 6,
   "weekStart": ""
 }
