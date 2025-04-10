@@ -1,0 +1,115 @@
+---
+- name: Install process-exporter
+  hosts: linux
+  become: true
+  vars:
+    process_exporter_version: "0.7.10"
+    process_exporter_user: "process_exporter"
+    process_exporter_install_dir: "/opt/process-exporter"
+    process_exporter_binary_path: "/usr/local/bin/process-exporter"
+    process_exporter_arch_map:
+      x86_64: "linux-amd64"
+      aarch64: "linux-arm64"
+      armv7l: "linux-armv7"
+
+  tasks:
+    - name: Show architecture
+      debug:
+        msg: "{{ ansible_architecture }}"
+
+    - name: Create process-exporter user
+      user:
+        name: "{{ process_exporter_user }}"
+        shell: /usr/sbin/nologin
+
+    - name: Create install directory
+      file:
+        path: "{{ process_exporter_install_dir }}"
+        state: directory
+        owner: "{{ process_exporter_user }}"
+        group: "{{ process_exporter_user }}"
+        mode: '0755'
+
+    - name: Detect system architecture
+      set_fact:
+        process_exporter_arch: "{{ process_exporter_arch_map[ansible_architecture] | default('unsupported') }}"
+
+    - name: Show process_exporter_arch
+      debug:
+        msg: "{{ process_exporter_arch }}"
+
+    - name: Fail if architecture is unsupported
+      fail:
+        msg: "Unsupported architecture: {{ ansible_facts.architecture }}"
+      when: process_exporter_arch == 'unsupported'
+
+    - name: Download process-exporter binary
+      get_url:
+        url: >-
+          https://github.com/ncabatoff/process-exporter/releases/download/v{{ process_exporter_version }}/process-exporter-{{ process_exporter_version }}.{{ process_exporter_arch }}.tar.gz
+        dest: "/tmp/process-exporter.tar.gz"
+        mode: '0644'
+
+    - name: Extract binary
+      unarchive:
+        src: "/tmp/process-exporter.tar.gz"
+        dest: "/tmp/"
+        remote_src: true
+
+    - name: Move binary to /usr/local/bin
+      command: >
+        mv /tmp/process-exporter-{{ process_exporter_version }}.{{ process_exporter_arch }}/process-exporter {{ process_exporter_binary_path }}
+      args:
+        creates: "{{ process_exporter_binary_path }}"
+
+    - name: Set binary permissions
+      file:
+        path: "{{ process_exporter_binary_path }}"
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Create process-exporter config directory
+      file:
+        path: /etc/process-exporter
+        state: directory
+        mode: '0755'
+
+    - name: Add default config
+      copy:
+        dest: /etc/process-exporter/config.yml
+        mode: '0644'
+        content: |-
+          {% raw %}
+          process_names:
+            - name: "{{.Comm}}"
+              cmdline:
+              - '.+'
+          {% endraw %}
+
+    - name: Create systemd service
+      copy:
+        dest: /etc/systemd/system/process-exporter.service
+        mode: '0644'
+        content: |
+          [Unit]
+          Description=Prometheus Process Exporter
+          After=network.target
+
+          [Service]
+          User={{ process_exporter_user }}
+          ExecStart={{ process_exporter_binary_path }} -config.path /etc/process-exporter/config.yml
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Reload systemd
+      systemd:
+        daemon_reload: true
+
+    - name: Enable and start process-exporter
+      systemd:
+        name: process-exporter
+        enabled: true
+        state: started

@@ -12,3 +12,6 @@
 
 - name: Install Grafana
   import_playbook: grafana/grafana.yml
+
+- name: Setup Nginx
+  import_playbook: nginx.yml

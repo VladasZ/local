@@ -3,4 +3,5 @@ skip_list:
 
 exclude_paths:
   - playbooks/deploy_petuh.yml
+  - playbooks/bench.yml
   - playbooks/prometheus/prometheus.yml
