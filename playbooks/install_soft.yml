@@ -9,6 +9,7 @@
           - ncdu
           - htop
           - acpi
+          - micro
           - iperf3
           - sysbench
           - brightnessctl
