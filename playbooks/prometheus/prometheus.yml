@@ -13,3 +13,15 @@ scrape_configs:
       - targets:
           - 192.168.0.103:9100
           - 192.168.0.103:9256
+
+  - job_name: "mb12"
+    static_configs:
+      - targets:
+          - 192.168.0.12:9100
+          - 192.168.0.12:9256
+
+  - job_name: "mb13"
+    static_configs:
+      - targets:
+          - 192.168.0.13:9100
+          - 192.168.0.13:9256

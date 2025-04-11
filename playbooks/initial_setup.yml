@@ -1,0 +1,22 @@
+- name: Initial setup
+  hosts: all
+
+  tasks:
+    - name: Add ssh pk
+      ansible.builtin.copy:
+        src: ../scripts/ssh.sh
+        dest: /tmp/ssh.sh
+        mode: '0755'
+
+    - name: Add sudo
+      ansible.builtin.copy:
+        src: ../scripts/sudo.sh
+        dest: /tmp/sudo.sh
+        mode: '0755'
+
+    - name: Disable sudo pass
+      ansible.builtin.copy:
+        src: ../scripts/disable_sudo.sh
+        dest: /tmp/disable_sudo.sh
+        mode: '0755'
+

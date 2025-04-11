@@ -7,6 +7,9 @@
 - name: Install node exporter
   import_playbook: prometheus/node_exporter.yml
 
+- name: Install process exporter
+  import_playbook: prometheus/process_exporter.yml
+
 - name: Install Prometheus
   import_playbook: prometheus/install_prometheus.yml
 

@@ -11,6 +11,7 @@
           - acpi
           - micro
           - iperf3
+          - sshpass
           - sysbench
           - brightnessctl
           - speedtest-cli

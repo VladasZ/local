@@ -21,4 +21,7 @@ prepare:
 
 bench:
 	ansible-playbook playbooks/bench.yml -l linux
+
+prom:
+	ansible-playbook playbooks/prometheus/install_prometheus.yml
 	
