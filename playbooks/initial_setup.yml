@@ -19,4 +19,3 @@
         src: ../scripts/disable_sudo.sh
         dest: /tmp/disable_sudo.sh
         mode: '0755'
-

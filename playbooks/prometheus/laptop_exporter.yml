@@ -1,0 +1,46 @@
+- name: Install laptop_exporter service
+  hosts: laptops
+  become: true
+  vars:
+    version: "v0.1.2"
+    release_base_url: "https://github.com/VladasZ/laptop_exporter/releases/download"
+    binary_path: "/usr/local/bin/laptop_exporter"
+
+  tasks:
+    - name: Get architecture
+      ansible.builtin.set_fact:
+        arch: "{{ 'x86_64' if ansible_architecture == 'x86_64' else 'aarch64' }}"
+
+    - name: Download laptop_exporter binary
+      ansible.builtin.get_url:
+        url: "{{ release_base_url }}/{{ version }}/laptop_exporter-{{ arch }}"
+        dest: "{{ binary_path }}"
+        mode: '0755'
+
+    - name: Create systemd service file
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/laptop_exporter.service
+        content: |
+          [Unit]
+          Description=Laptop Exporter
+          After=network.target
+
+          [Service]
+          ExecStart={{ binary_path }}
+          Restart=always
+          RestartSec=5
+          User=root
+
+          [Install]
+          WantedBy=multi-user.target
+        mode: '0644'
+
+    - name: Reload systemd daemon
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: Enable and start laptop_exporter service
+      ansible.builtin.systemd:
+        name: laptop_exporter
+        enabled: true
+        state: started

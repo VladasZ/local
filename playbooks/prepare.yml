@@ -10,6 +10,9 @@
 - name: Install process exporter
   import_playbook: prometheus/process_exporter.yml
 
+- name: Install laptop exporter
+  import_playbook: prometheus/laptop_exporter.yml
+
 - name: Install Prometheus
   import_playbook: prometheus/install_prometheus.yml
 
