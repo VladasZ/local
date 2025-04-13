@@ -13,18 +13,31 @@ spec:
       labels:
         app: prometheus
     spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 65534:65534 /prometheus"]
+          volumeMounts:
+            - name: prometheus-storage
+              mountPath: /prometheus
       containers:
         - name: prometheus
           image: prom/prometheus
           args:
-            - "--config.file=/etc/prometheus/prometheus.yml"
+            - --config.file=/etc/prometheus/prometheus.yml
+            - --storage.tsdb.path=/prometheus
           ports:
             - containerPort: 9090
               hostPort: 9090
           volumeMounts:
+            - name: prometheus-storage
+              mountPath: /prometheus
             - name: config-volume
               mountPath: /etc/prometheus
       volumes:
+        - name: prometheus-storage
+          persistentVolumeClaim:
+            claimName: prometheus-pvc
         - name: config-volume
           configMap:
             name: prometheus-config
