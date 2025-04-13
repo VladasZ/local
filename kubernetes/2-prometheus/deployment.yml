@@ -13,8 +13,6 @@ spec:
       labels:
         app: prometheus
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: pi
       containers:
         - name: prometheus
           image: prom/prometheus

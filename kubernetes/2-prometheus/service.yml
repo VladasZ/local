@@ -11,4 +11,4 @@ spec:
   ports:
     - port: 9090
       targetPort: 9090
-      nodePort: 30900 # maps to http://192.168.0.2:30900
+      nodePort: 30090 # maps to http://192.168.0.2:30090

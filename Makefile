@@ -24,4 +24,12 @@ bench:
 
 prom:
 	ansible-playbook playbooks/prometheus/install_prometheus.yml
-	
+
+kubeup:
+	ansible-playbook kubernetes-setup/up.yml -K
+
+kubedown:
+	ansible-playbook kubernetes-setup/down.yml
+
+apply:
+	kubectl apply --recursive --filename=kubernetes
