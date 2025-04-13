@@ -1,0 +1,26 @@
+---
+- name: Deploy Kubernetes Dashboard with Helm
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Add Kubernetes Dashboard Helm repository
+      command: helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+      register: helm_repo
+      changed_when: "'has been added' in helm_repo.stdout"
+
+    - name: Update Helm repositories
+      command: helm repo update
+
+    - name: Deploy Kubernetes Dashboard Helm chart
+      command: >
+        helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard
+        --create-namespace
+        --namespace kubernetes-dashboard
+
+    # https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
+    # kubectl -n kubernetes-dashboard create token admin-user
+    - name: Create service account and role
+      command: >
+        kubectl apply -f ~/dev/local/kubernetes/service

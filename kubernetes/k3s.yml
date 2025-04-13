@@ -5,7 +5,7 @@
   tasks:
     - name: Install K3s server
       shell: |
-        curl -sfL https://get.k3s.io | sh -s - server --write-kubeconfig-mode 644
+        curl -sfL https://get.k3s.io | sh -s - server --write-kubeconfig-mode 644 --node-taint CriticalAddonsOnly=true:NoExecute
       args:
         creates: /etc/rancher/k3s/k3s.yaml
 
