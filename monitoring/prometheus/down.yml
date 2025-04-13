@@ -1,0 +1,21 @@
+---
+- name: Stop and remove Prometheus
+  hosts: linux
+  become: true
+  tasks:
+
+    - name: Stop and disable Prometheus service
+      ansible.builtin.systemd:
+        name: prometheus
+        enabled: false
+        state: stopped
+
+    - name: Remove Prometheus config file
+      ansible.builtin.file:
+        path: /etc/prometheus/prometheus.yml
+        state: absent
+
+    - name: Uninstall Prometheus package
+      ansible.builtin.apt:
+        name: prometheus
+        state: absent

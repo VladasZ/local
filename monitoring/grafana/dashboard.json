@@ -1364,6 +1364,8 @@
             }
           },
           "mappings": [],
+          "max": 1,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1424,13 +1426,13 @@
     "list": []
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Cluster state",
   "uid": "eeifcsezb63uob",
-  "version": 18,
+  "version": 19,
   "weekStart": ""
 }

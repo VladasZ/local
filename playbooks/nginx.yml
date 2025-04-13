@@ -1,5 +1,5 @@
 - name: Configure Grafana with reverse proxy
-  hosts: cp
+  hosts: control_plane
   become: true
 
   vars:
