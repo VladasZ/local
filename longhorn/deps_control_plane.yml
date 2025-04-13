@@ -1,0 +1,13 @@
+- name: Run Longhorn environment check
+  hosts: control_plane
+  become: yes
+  tasks:
+    - name: Install soft
+      package:
+        name:
+          - jq
+          - curl
+          - grep
+          - bash
+        state: present
+        update_cache: true

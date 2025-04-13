@@ -1,0 +1,54 @@
+- name: Ensure open-iscsi is installed and iscsid is running
+  hosts: node
+  become: yes
+  tasks:
+
+    - name: Check if iscsiadm (open-iscsi) is already installed
+      shell: which iscsiadm
+      register: iscsiadm_check
+      changed_when: false
+      failed_when: false
+
+    - name: Install open-iscsi if not found
+      apt:
+        name: open-iscsi
+        state: present
+        update_cache: yes
+      when: iscsiadm_check.rc != 0
+
+    - name: Ensure iscsid service is enabled and started
+      systemd:
+        name: iscsid
+        enabled: yes
+        state: started
+
+    - name: Load iscsi_tcp module now
+      modprobe:
+        name: iscsi_tcp
+        state: present
+
+    - name: Ensure iscsi_tcp loads on boot
+      lineinfile:
+        path: /etc/modules-load.d/iscsi_tcp.conf
+        line: iscsi_tcp
+        create: yes
+
+    - name: Check if the module is loaded
+      shell: lsmod | grep iscsi_tcp
+      register: iscsi_mod_status
+      changed_when: false
+
+    - name: Debug module status
+      debug:
+        msg: "iscsi_tcp module is loaded"
+      when: iscsi_mod_status.stdout != ""
+
+    - name: Install nfs-common
+      apt:
+        name: nfs-common
+        state: present
+
+    - name: Install cryptsetup
+      apt:
+        name: cryptsetup
+        state: present

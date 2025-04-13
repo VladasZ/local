@@ -1,0 +1,14 @@
+- name: Run Longhorn environment check
+  hosts: control_plane
+  become: yes
+  tasks:
+    - name: Download and run Longhorn env check script
+      shell: |
+        curl -sSfL https://raw.githubusercontent.com/longhorn/longhorn/v1.8.1/scripts/environment_check.sh | bash
+      args:
+        executable: /bin/bash
+      register: check_result
+
+    - name: Output
+      debug:
+        var: check_result.stdout_lines
