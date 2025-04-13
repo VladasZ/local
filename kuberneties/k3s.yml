@@ -1,0 +1,64 @@
+---
+- name: Install K3s Control Plane
+  hosts: control_plane
+  become: true
+  tasks:
+    - name: Install K3s server
+      shell: |
+        curl -sfL https://get.k3s.io | sh -s - server --write-kubeconfig-mode 644
+      args:
+        creates: /etc/rancher/k3s/k3s.yaml
+
+    - name: Get K3s token
+      slurp:
+        src: /var/lib/rancher/k3s/server/node-token
+      register: token_file
+
+    - name: Set K3s token fact
+      set_fact:
+        k3s_token: "{{ token_file.content | b64decode | trim }}"
+
+    - name: Get control plane IP
+      command: hostname -I
+      register: ip_result
+
+    - name: Set control plane IP fact
+      set_fact:
+        control_plane_ip: "{{ ip_result.stdout.split()[0] }}"
+
+    - name: Save token and IP for worker setup
+      add_host:
+        name: "k3s_info"
+        k3s_token: "{{ k3s_token }}"
+        control_plane_ip: "{{ control_plane_ip }}"
+
+- name: Install K3s Worker Nodes
+  hosts: node
+  become: true
+  tasks:
+    - name: Get control plane token and IP
+      set_fact:
+        k3s_token: "{{ hostvars['k3s_info']['k3s_token'] }}"
+        control_plane_ip: "{{ hostvars['k3s_info']['control_plane_ip'] }}"
+
+    - name: Show agent install command
+      ansible.builtin.debug:
+        msg: >
+          curl -sfL https://get.k3s.io |
+          K3S_URL="https://{{ control_plane_ip }}:6443"
+          K3S_TOKEN="{{ k3s_token }}" sh -
+
+    - name: Install K3s agent
+      shell: |
+        curl -sfL https://get.k3s.io | K3S_URL="https://{{ control_plane_ip }}:6443" K3S_TOKEN="{{ k3s_token }}" sh -
+      args:
+        creates: /etc/rancher/k3s/k3s-agent.yaml
+      register: k3s_install_result
+
+    - name: Show install command stdout
+      debug:
+        var: k3s_install_result.stdout_lines
+
+    - name: Show install command stderr
+      debug:
+        var: k3s_install_result.stderr_lines

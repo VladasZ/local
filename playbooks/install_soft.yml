@@ -1,5 +1,5 @@
 - name: Install soft
-  hosts: all
+  hosts: linux
   become: true
   tasks:
     - name: Install soft
@@ -8,15 +8,23 @@
           - duf
           - ncdu
           - htop
-          - acpi
+          - curl
           - micro
           - iperf3
           - sshpass
           - sysbench
-          - brightnessctl
           - speedtest-cli
         state: present
         update_cache: true
+
+    - name: Install laptop soft
+      package:
+        name:
+          - acpi
+          - brightnessctl
+        state: present
+        update_cache: true
+      when: inventory_hostname in groups['laptop']
 
     - name: Create systemd service for iperf3 server
       copy:

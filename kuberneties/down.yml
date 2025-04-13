@@ -1,0 +1,59 @@
+---
+- name: Uninstall K3s from control plane
+  hosts: control_plane
+  become: true
+  tasks:
+    - name: Run K3s uninstall script (control plane)
+      shell: |
+          if [ -f /usr/local/bin/k3s-uninstall.sh ]; then
+            /usr/local/bin/k3s-uninstall.sh
+          fi
+      register: uninstall_result
+      changed_when: "'already removed' not in uninstall_result.stdout"
+
+    - name: Remove leftover K3s files (control)
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/rancher
+        - /var/lib/rancher
+        - /var/lib/kubelet
+        - /var/lib/cni
+        - /run/flannel
+        - /etc/cni
+        - /opt/cni
+        - /var/lib/containerd
+        - /etc/systemd/system/k3s.service
+        - /etc/systemd/system/k3s-agent.service
+        - /usr/local/bin/k3s
+        - /tmp/install_k3s.sh
+
+- name: Uninstall K3s from worker nodes
+  hosts: node
+  become: true
+  tasks:
+    - name: Run K3s uninstall script (agent)
+      shell: |
+        if [ -f /usr/local/bin/k3s-agent-uninstall.sh ]; then
+          /usr/local/bin/k3s-agent-uninstall.sh
+        fi
+      register: uninstall_result
+      changed_when: "'already removed' not in uninstall_result.stdout"
+
+    - name: Remove leftover K3s files (worker)
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/rancher
+        - /var/lib/rancher
+        - /var/lib/kubelet
+        - /var/lib/cni
+        - /run/flannel
+        - /etc/cni
+        - /opt/cni
+        - /var/lib/containerd
+        - /etc/systemd/system/k3s-agent.service
+        - /usr/local/bin/k3s
+        - /tmp/install_k3s.sh

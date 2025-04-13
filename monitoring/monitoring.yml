@@ -1,0 +1,3 @@
+- import_playbook: prometheus/node_exporter.yml
+- import_playbook: prometheus/process_exporter.yml
+- import_playbook: prometheus/laptop_exporter.yml

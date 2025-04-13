@@ -1,5 +1,5 @@
 - name: Install laptop_exporter service
-  hosts: laptops
+  hosts: laptop
   become: true
   vars:
     version: "v0.1.2"

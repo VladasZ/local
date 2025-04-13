@@ -1,0 +1,48 @@
+---
+- name: Copy and patch kubeconfig for remote access
+  hosts: control_plane
+  become: true
+  tasks:
+    - name: Read kubeconfig
+      slurp:
+        src: /etc/rancher/k3s/k3s.yaml
+      register: raw_kubeconfig
+
+    - name: Decode and patch kubeconfig
+      set_fact:
+        fixed_kubeconfig: "{{ raw_kubeconfig.content | b64decode | regex_replace('127.0.0.1', inventory_hostname) }}"
+
+    - name: Save patched kubeconfig to temp file
+      copy:
+        content: "{{ fixed_kubeconfig }}"
+        dest: /tmp/k3s_patched.yaml
+        mode: '0644'
+
+- name: Copy kubeconfig to MacBook
+  hosts: main
+  tasks:
+    - name: Create .kube dir if needed
+      file:
+        path: ~/.kube
+        state: directory
+        mode: '0755'
+
+    - name: Copy config from control plane
+      fetch:
+        src: /tmp/k3s_patched.yaml
+        dest: /tmp/k3s_patched.yaml
+        flat: true
+      delegate_to: "{{ groups['control_plane'][0] }}"
+
+    - name: Move it to ~/.kube/config
+      copy:
+        src: /tmp/k3s_patched.yaml
+        dest: ~/.kube/config
+        mode: '0600'
+
+    - name: Ensure 'pi' entry exists in /etc/hosts
+      become: true
+      lineinfile:
+        path: /etc/hosts
+        line: "192.168.0.2 pi"
+        state: present
