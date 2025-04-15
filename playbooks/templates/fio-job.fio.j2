@@ -1,0 +1,14 @@
+[global]
+runtime={{ fio_runtime }}
+ioengine=libaio
+# direct=1  ← comment this out or remove
+bs={{ fio_bs }}
+iodepth={{ fio_iodepth }}
+size={{ fio_size }}
+numjobs={{ fio_numjobs }}
+group_reporting
+time_based
+
+[job1]
+rw={{ fio_rw }}
+filename=/tmp/testfile

@@ -37,7 +37,7 @@ spec:
       volumes:
         - name: prometheus-storage
           persistentVolumeClaim:
-            claimName: prometheus-pvc
+            claimName: prometheus-longhorn-pvc
         - name: config-volume
           configMap:
             name: prometheus-config

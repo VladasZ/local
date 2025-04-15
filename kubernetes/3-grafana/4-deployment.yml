@@ -51,7 +51,7 @@ spec:
             name: grafana-datasources
         - name: grafana-storage
           persistentVolumeClaim:
-            claimName: grafana-pvc
+            claimName: grafana-longhorn-pvc
         - name: grafana-dashboard-json
           configMap:
             name: grafana-dashboard-json

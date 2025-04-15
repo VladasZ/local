@@ -1,22 +1,15 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: grafana-pv
-  labels:
-    type: local
+  name: grafana-longhorn-pv
+  namespace: monitoring
 spec:
-  storageClassName: manual
   capacity:
-    storage: 1Gi
+    storage: 2Gi
   accessModes:
     - ReadWriteOnce
-  hostPath:
-    path: /mnt/data/grafana
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-                - mb12 # Replace with your worker node name
+  csi:
+    driver: driver.longhorn.io
+    volumeHandle: grafana  # <-- This must match the name of the volume in Longhorn exactly
+  storageClassName: longhorn
+  persistentVolumeReclaimPolicy: Retain

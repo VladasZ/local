@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: prometheus-pvc
+  name: prometheus-longhorn-pvc
   namespace: monitoring
 spec:
-  storageClassName: manual
   accessModes:
     - ReadWriteOnce
+  storageClassName: longhorn
   resources:
     requests:
-      storage: 2Gi
+      storage: 4Gi
+  volumeName: prometheus-longhorn-pv
