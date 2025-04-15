@@ -11,10 +11,6 @@
         --from-file=my-dashboard.json={{ playbook_dir }}/dashboard.yml \
         -n monitoring
 
-    - name: Assign grafana role
-      command: >
-        kubectl label node mb12 role=grafana
-
     - name: Apply Kubernetes
       command: >
         kubectl apply --recursive --filename={{ playbook_dir }}/../kubernetes

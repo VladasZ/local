@@ -15,8 +15,6 @@ spec:
       labels:
         app: grafana
     spec:
-      nodeSelector:
-        role: grafana
       initContainers:
         - name: fix-permissions
           image: busybox
