@@ -19,7 +19,7 @@
         mode: '0644'
 
 - name: Copy kubeconfig to MacBook
-  hosts: main
+  hosts: localhost
   tasks:
     - name: Create .kube dir if needed
       file:
