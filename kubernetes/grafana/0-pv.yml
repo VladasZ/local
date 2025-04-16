@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: grafana-longhorn-pv
+  namespace: monitoring
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  csi:
+    driver: driver.longhorn.io
+    volumeHandle: grafana  # <-- This must match the name of the volume in Longhorn exactly
+  storageClassName: longhorn
+  persistentVolumeReclaimPolicy: Retain
+#Replica Node Level Soft Anti-Affinity: - longhorn setting to change nodes automatically
+#Replica Replenishment Wait Interval - 30 rebuild replica on other node faster
+#Replica Auto Balance - least-effort in global and on volume
+#Pod Deletion Policy When Node is Down - this  delete-both-statefulset-and-deployment-pod Longhorn will force delete StatefulSet/Deployment terminating pods on nodes that are down to release Longhorn volumes so that Kubernetes can spin up replacement pods.
