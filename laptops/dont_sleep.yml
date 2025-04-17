@@ -1,0 +1,40 @@
+- name: Prevent sleep on lid close (Debian)
+  hosts: laptop
+  become: true
+
+  tasks:
+    - name: Ensure systemd logind config ignores lid close
+      lineinfile:
+        path: /etc/systemd/logind.conf
+        regexp: '^HandleLidSwitch='
+        line: 'HandleLidSwitch=ignore'
+        create: yes
+
+    - name: Set HandleLidSwitchDocked to ignore
+      lineinfile:
+        path: /etc/systemd/logind.conf
+        regexp: '^HandleLidSwitchDocked='
+        line: 'HandleLidSwitchDocked=ignore'
+        create: yes
+
+    - name: Set HandleLidSwitchExternalPower to ignore
+      lineinfile:
+        path: /etc/systemd/logind.conf
+        regexp: '^HandleLidSwitchExternalPower='
+        line: 'HandleLidSwitchExternalPower=ignore'
+        create: yes
+
+    - name: Restart systemd-logind
+      systemd:
+        name: systemd-logind
+        state: restarted
+
+#    - name: Mask sleep targets to prevent sleep entirely (optional)
+#      systemd:
+#        name: "{{ item }}"
+#        masked: yes
+#      loop:
+#        - sleep.target
+#        - suspend.target
+#        - hibernate.target
+#        - hybrid-sleep.target
