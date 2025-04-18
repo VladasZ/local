@@ -1,0 +1,26 @@
+- name: Install Rust using rustup
+  hosts: linux
+
+  vars:
+    rust_user: "{{ ansible_user_id }}"
+
+  tasks:
+    - name: Ensure curl is installed
+      become: true
+      package:
+        name: curl
+        state: present
+
+    - name: Download and install rustup for user
+      shell: |
+        curl https://sh.rustup.rs -sSf | sh -s -- -y
+      args:
+        executable: /bin/bash
+        creates: "/home/{{ rust_user }}/.cargo/bin/rustup"
+
+    - name: Add cargo bin path to .bashrc
+      lineinfile:
+        path: "/home/{{ rust_user }}/.bashrc"
+        line: 'export PATH="$HOME/.cargo/bin:$PATH"'
+        insertafter: EOF
+      when: rust_user != "root"

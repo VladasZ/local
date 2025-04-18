@@ -1,5 +1,5 @@
 - name: Upgrade
-  hosts: all
+  hosts: linux
   become: true
   tasks:
     - name: Upgrade

@@ -1,0 +1,21 @@
+---
+- name: Install ssd-benchmark with cargo
+  hosts: linux
+
+  vars:
+    rust_user: "{{ ansible_user_id }}"  # Or set manually like "vladas"
+
+  tasks:
+    - name: Ensure required packages are installed
+      become: yes
+      package:
+        name:
+          - build-essential
+        state: present
+
+    - name: Install ssd-benchmark using cargo
+      shell: |
+        source $HOME/.cargo/env && cargo install ssd-benchmark
+      args:
+        executable: /bin/bash
+        creates: "/home/{{ rust_user }}/.cargo/bin/ssd-benchmark"
