@@ -12,6 +12,7 @@
           - micro
           - iperf3
           - sshpass
+          - xfsprogs
           - sysbench
           - speedtest-cli
         state: present

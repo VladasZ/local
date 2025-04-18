@@ -10,7 +10,6 @@ helm install valheim-server valheim-k8s/valheim-k8s \
   --set serverName=Kurjatnik \
   --set password=password \
   --set storage.kind=persistentVolumeClaim \
-  --set storage.pvc.existingClaim=valheim-longhorn-pvc \
   --set storage.pvc.storageClassName=longhorn \
   --set storage.pvc.size=10Gi \
   --set networking.serviceType=LoadBalancer \

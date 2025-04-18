@@ -1,8 +1,0 @@
----
-- name: Configure backups
-  hosts: mb14
-  vars:
-    backup_user: vladas
-    backup_host: 192.168.0.14
-    remote_dir: /Users/vladas/Dropbox/backup/valheim
-    source_dir: /home/steam/.config/unity3d/IronGate/Valheim/WorldNameOne/worlds_local

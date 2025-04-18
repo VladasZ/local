@@ -24,6 +24,7 @@
         - /etc/cni
         - /opt/cni
         - /var/lib/containerd
+        - /var/lib/longhorn
         - /etc/systemd/system/k3s.service
         - /etc/systemd/system/k3s-agent.service
         - /usr/local/bin/k3s
@@ -49,6 +50,7 @@
         - /etc/rancher
         - /var/lib/rancher
         - /var/lib/kubelet
+        - /var/lib/longhorn
         - /var/lib/cni
         - /run/flannel
         - /etc/cni

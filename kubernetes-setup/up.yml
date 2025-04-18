@@ -3,3 +3,5 @@
 - import_playbook: connect.yml
 - import_playbook: dashboard.yml
 - import_playbook: apply.yml
+
+#  "module_stderr": "sudo: a password is required\n USE -K, password of current machine
