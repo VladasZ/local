@@ -33,6 +33,3 @@ kubedown:
 
 apply:
 	kubectl apply --recursive --filename=kubernetes
-
-dash:
-	./scripts/dash.sh
