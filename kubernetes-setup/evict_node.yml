@@ -1,0 +1,21 @@
+- name: Remove node from K3s cluster (control plane)
+  hosts: control_plane
+  become: true
+  vars:
+    node_name: "mb12"  # Replace with actual node name
+  tasks:
+    - name: Drain the node
+      command: kubectl drain {{ node_name }} --ignore-daemonsets
+      ignore_errors: true
+
+    - name: Delete the node from cluster
+      command: kubectl delete node {{ node_name }}
+
+- name: Uninstall K3s from node
+  hosts: mb12
+  become: true
+  tasks:
+    - name: Run K3s uninstall script
+      command: /usr/local/bin/k3s-uninstall.sh
+      args:
+        removes: /usr/local/bin/k3s-uninstall.sh

@@ -5,7 +5,7 @@ metadata:
   namespace: monitoring
 spec:
   capacity:
-    storage: 4Gi
+    storage: 6Gi
   accessModes:
     - ReadWriteOnce
   csi:

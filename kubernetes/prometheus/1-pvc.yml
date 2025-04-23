@@ -9,5 +9,5 @@ spec:
   storageClassName: longhorn
   resources:
     requests:
-      storage: 4Gi
+      storage: 6Gi
   volumeName: prometheus-longhorn-pv

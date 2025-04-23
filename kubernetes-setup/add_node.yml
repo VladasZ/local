@@ -1,0 +1,20 @@
+- name: Add node to K3s cluster
+  hosts: new_nodes
+  become: true
+
+  vars:
+    k3s_server_url: "https://192.168.0.2:6443"  # your control plane IP
+    k3s_token: "YOUR_K3S_TOKEN_HERE"            # get this from the control plane: /var/lib/rancher/k3s/server/node-token
+
+  tasks:
+    - name: Install curl
+      apt:
+        name: curl
+        state: present
+        update_cache: yes
+
+    - name: Install K3s agent
+      shell: |
+        curl -sfL https://get.k3s.io | K3S_URL={{ k3s_server_url }} K3S_TOKEN={{ k3s_token }} sh -
+      args:
+        creates: /etc/systemd/system/k3s-agent.service

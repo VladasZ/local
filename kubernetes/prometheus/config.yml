@@ -25,3 +25,7 @@ data:
       - job_name: "mb13"
         static_configs:
           - targets: ["192.168.0.13:9100", "192.168.0.13:9256"]
+              
+      - job_name: "tc1"
+        static_configs:
+          - targets: ["192.168.0.201:9100", "192.168.0.201:9256"]
