@@ -1,10 +1,17 @@
 - name: Install Geekbench 6 locally for current user
-  hosts: all
+  hosts: tc2
   vars:
     geekbench_url: https://cdn.geekbench.com/Geekbench-6.2.2-Linux.tar.gz
     install_dir: "{{ ansible_env.HOME }}/geekbench6"
 
   tasks:
+    - name: Create directory for Geekbench
+      ansible.builtin.file:
+        path: "{{ install_dir }}"
+        state: directory
+        mode: '0755'
+        recurse: yes
+
     - name: Download Geekbench 6 archive
       get_url:
         url: "{{ geekbench_url }}"

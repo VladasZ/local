@@ -2,7 +2,7 @@
   hosts: control_plane
   become: true
   vars:
-    node_name: "mb12"  # Replace with actual node name
+    node_name: "tc1"  # Replace with actual node name
   tasks:
     - name: Drain the node
       command: kubectl drain {{ node_name }} --ignore-daemonsets
@@ -12,7 +12,7 @@
       command: kubectl delete node {{ node_name }}
 
 - name: Uninstall K3s from node
-  hosts: mb12
+  hosts: tc1
   become: true
   tasks:
     - name: Run K3s uninstall script

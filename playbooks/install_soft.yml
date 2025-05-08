@@ -9,23 +9,20 @@
           - ncdu
           - htop
           - curl
-          - micro
           - iperf3
           - sshpass
           - xfsprogs
-          - sysbench
-          - speedtest-cli
         state: present
         update_cache: true
 
-    - name: Install laptop soft
-      package:
-        name:
-          - acpi
-          - brightnessctl
-        state: present
-        update_cache: true
-      when: inventory_hostname in groups['laptop']
+#    - name: Install laptop soft
+#      package:
+#        name:
+#          - acpi
+#          - brightnessctl
+#        state: present
+#        update_cache: true
+#      when: inventory_hostname in groups['laptop']
 
     - name: Create systemd service for iperf3 server
       copy:

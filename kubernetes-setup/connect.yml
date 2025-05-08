@@ -40,9 +40,9 @@
         dest: ~/.kube/config
         mode: '0600'
 
-    - name: Ensure 'pi' entry exists in /etc/hosts
+    - name: Ensure 'tc1' entry exists in /etc/hosts
       become: true
       lineinfile:
         path: /etc/hosts
-        line: "192.168.0.2 pi"
+        line: "192.168.0.201 tc1"
         state: present

@@ -1,5 +1,5 @@
 - name: Add node to K3s cluster
-  hosts: new_nodes
+  hosts: tc1
   become: true
 
   vars:

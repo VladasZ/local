@@ -10,4 +10,4 @@ spec:
   ports:
     - port: 3000
       targetPort: 3000
-      nodePort: 32000 # maps to http://192.168.0.2:32000
+      nodePort: 32000 # maps to http://192.168.0.201:32000

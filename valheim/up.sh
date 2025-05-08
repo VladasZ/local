@@ -13,7 +13,7 @@ helm install valheim-server valheim-k8s/valheim-k8s \
   --set storage.pvc.storageClassName=longhorn \
   --set storage.pvc.size=10Gi \
   --set networking.serviceType=LoadBalancer \
-  --set networking.loadBalancerIP=192.168.0.2 \
+  --set networking.loadBalancerIP=192.168.0.201 \
   --set networking.gamePort=24560 \
   --set networking.publishQueryPort=true
 
