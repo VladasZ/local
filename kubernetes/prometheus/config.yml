@@ -12,7 +12,7 @@ data:
     scrape_configs:
       - job_name: "pci3"
         static_configs:
-          - targets: ["192.168.0.103:9100", "192.168.0.103:9256"]
+          - targets: ["192.168.0.103:9100", "192.168.0.103:9256", "192.168.0.103:9900"]
               
       - job_name: "tc1"
         static_configs:
