@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: palworld-longhorn-pvc
+  labels:
+    app: palworld
+  namespace: palworld
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 20Gi
+  volumeName: palworld-longhorn-pv
