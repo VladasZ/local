@@ -33,3 +33,6 @@ kubedown:
 
 apply:
 	kubectl apply --recursive --filename=kubernetes
+
+routes:
+	kubectl apply -f kubernetes-setup/routing
