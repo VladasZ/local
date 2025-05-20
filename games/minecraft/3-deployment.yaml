@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft-server
+  namespace: minecraft
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      containers:
+        - name: minecraft
+          image: itzg/minecraft-server:latest
+          tty: true
+          stdin: true
+          ports:
+            - containerPort: 25565
+              name: server
+          env:
+            - name: EULA
+              value: "TRUE"
+            - name: MEMORY
+              value: "20480M"
+            - name: ONLINE_MODE
+              value: "false"
+          volumeMounts:
+            - name: mc-data
+              mountPath: /data
+      volumes:
+        - name: mc-data
+          persistentVolumeClaim:
+            claimName: minecraft-longhorn-pvc

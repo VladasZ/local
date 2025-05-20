@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: minecraft
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: minecraft-longhorn-pv
+  namespace: minecraft
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  csi:
+    driver: driver.longhorn.io
+    volumeHandle: minecraft  # <-- This must match the name of the volume in Longhorn exactly
+  storageClassName: longhorn
+  persistentVolumeReclaimPolicy: Retain

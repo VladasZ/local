@@ -28,6 +28,9 @@ prom:
 kubeup:
 	ansible-playbook kubernetes-setup/up.yml -K
 
+connect:
+	ansible-playbook kubernetes-setup/connect.yml -K -k
+
 kubedown:
 	ansible-playbook kubernetes-setup/down.yml
 
