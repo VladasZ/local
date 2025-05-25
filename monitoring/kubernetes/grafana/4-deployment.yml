@@ -36,6 +36,11 @@ spec:
           image: grafana/grafana:latest
           ports:
             - containerPort: 3000
+          env:
+            - name: GF_SERVER_DOMAIN
+              value: "grafana.vladas.xyz"
+            - name: GF_SERVER_ROOT_URL
+              value: "https://grafana.vladas.xyz/"
           volumeMounts:
             - name: grafana-storage
               mountPath: /var/lib/grafana
