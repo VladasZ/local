@@ -1,0 +1,47 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: lanraragi-external
+  namespace: default
+subsets:
+  - addresses:
+      - ip: 192.168.0.201
+    ports:
+      - port: 27777
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lanraragi-external
+  namespace: default
+spec:
+  clusterIP: None
+  ports:
+    - port: 27777
+      targetPort: 27777
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lanraragi-ingress
+  namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  tls:
+    - hosts:
+        - lanraragi.vladas.xyz
+      secretName: vladas.xyz-tls
+  rules:
+    - host: lanraragi.vladas.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: lanraragi-external
+                port:
+                  number: 27777

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lanraragi-longhorn-pvc
+  labels:
+    app: lanraragi
+  namespace: lanraragi
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 2Gi
+  volumeName: lanraragi-longhorn-pv
