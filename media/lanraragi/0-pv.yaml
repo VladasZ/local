@@ -10,7 +10,7 @@ metadata:
   namespace: lanraragi
 spec:
   capacity:
-    storage: 2Gi
+    storage: 10Gi
   accessModes:
     - ReadWriteOnce
   csi:

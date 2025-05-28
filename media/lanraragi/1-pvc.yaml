@@ -11,5 +11,5 @@ spec:
   storageClassName: longhorn
   resources:
     requests:
-      storage: 2Gi
+      storage: 10Gi
   volumeName: lanraragi-longhorn-pv
