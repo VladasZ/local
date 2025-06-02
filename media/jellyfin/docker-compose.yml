@@ -1,19 +1,17 @@
 services:
   jellyfin:
-    image: jellyfin/jellyfin
+    image: jellyfin/jellyfin:2025060205
     container_name: jellyfin
     network_mode: host  # Simplest way to expose port 8096 directly
     volumes:
       - ./config:/config
       - ./cache:/cache
-      - ./media:/media
-      - /mnt/hdd4TB:/media/hdd4TB
+      - /mnt/raid4TB:/media/raid4TB
     restart: unless-stopped
     environment:
       - TZ=Europe/Vilnius  # Set to your time zone
 
-#  mkdir -p ~/jellyfin/config ~/jellyfin/cache ~/jellyfin/media
-#  ln -s /mnt/hdd4TB ~/jellyfin/media/hdd4TB
+#  mkdir -p ~/jellyfin/config ~/jellyfin/cache
 # sudo usermod -aG docker dietpi
 # docker compose up -d
 
