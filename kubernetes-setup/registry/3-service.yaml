@@ -14,3 +14,19 @@ spec:
       port: 5000
       targetPort: 5000
       nodePort: 30500  # This port must be between 30000–32767
+
+#  curl -I http://192.168.0.201:30500/v2/
+#  curl http://192.168.0.201:30500/v2/petuh/tags/list
+
+#  {
+#    "builder": {
+#      "gc": {
+#        "defaultKeepStorage": "20GB",
+#        "enabled": true
+#      }
+#    },
+#    "experimental": false,
+#    "insecure-registries": [
+#      "192.168.0.201:30500"
+#    ]
+#  }
