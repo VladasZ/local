@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: komga
+  name: komga
+  namespace: komga
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: komga
+  template:
+    metadata:
+      labels:
+        app: komga
+    spec:
+      containers:
+        - name: komga
+          image: gotson/komga
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xmx4g"
+          ports:
+            - containerPort: 25600
+              name: komga
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /config
+              name: datadir
+              subPath: config
+            - mountPath: /data
+              name: datadir
+              subPath: data
+            - mountPath: /etc/timezone
+              name: datadir
+              subPath: timezone
+      volumes:
+        - name: datadir
+          persistentVolumeClaim:
+            claimName: komga-longhorn-pvc
